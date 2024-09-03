@@ -37,7 +37,31 @@ const styles = StyleSheet.create({
 
 export default function SignUp() {
     const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [nome, setNome] = useState('');
 
+
+    async function enviaRegistro() {
+
+        if (!nome || !senha || !email) {
+            alert('Preencha todas as opções')
+        }
+
+        const resposta = await fetch('https://taskhub-s37f.onrender.com/auth/signup', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'name': nome, 'password': senha, 'email': email })
+
+        }
+        )
+        alert('Registrado com sucesso!')
+    }
+
+
+   
     return (
         <SafeAreaView style={styles.container}>
             <View>
@@ -51,8 +75,23 @@ export default function SignUp() {
                     placeholder="Digite seu email"
                     keyboardType="email-address"
                 />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setSenha(text)}
+                    value={senha}
+                    placeholder="Digite sua Senha"
+                    keyboardType="Senha-address"
+                    secureTextEntry={true}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setNome(text)}
+                    value={nome}
+                    placeholder="Digite seu Nome"
+                    keyboardType="Nome"
+                />
             </View>
-            <Pressable style={styles.button} onPress={() => alert('Registrado com sucesso!')}>
+            <Pressable style={styles.button} onPress={() => enviaRegistro()}>
                 <Text style={styles.buttonText}>Registrar</Text>
             </Pressable>
         </SafeAreaView>
